@@ -1,0 +1,61 @@
+﻿@model MVCAutofac.ViewModels.CustomersViewModel
+@{
+    ViewBag.Title = "Northwind - Customers";
+    var count = 0;
+}
+
+<h3>Customers</h3>
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-lg-1">#</th>
+                <th class="col-lg-1">Id</th>
+                <th class="col-lg-3">City</th>
+                <th class="col-lg-3">Address</th>
+                <th class="col-lg-2">Country</th>
+                <th class="col-lg-2">Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Customers)
+            {
+                <tr>
+                    <td>@((++count) + ((Model.CurrentPage - 1) * Model.ItemsPerPage))</td>
+                    <td>@item.CustomerID</td>
+                    <td>@item.City</td>
+                    <td>@item.Address</td>
+                    <td>@item.Country</td>
+                    <td>@item.Phone</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <ul class="pagination pagination-sm">
+        <li>
+            @Html.ActionLink("<<", "Index", new { page = 1 })
+        </li>
+
+        <li>
+            @Html.ActionLink("<", "Index", Model.CurrentPage != 1 ? new { page = Model.CurrentPage - 1 } : new { page = 1 })
+        </li>
+
+        @for (int i = 1; i <= Model.MaxPage; i++)
+        {
+            <li class=@((i == Model.CurrentPage) ? "active" : "")>
+                @Html.ActionLink(@i.ToString(), "Index", new { page = i })
+            </li>
+        }
+
+        <li>
+            @Html.ActionLink(">", "Index", Model.CurrentPage != Model.MaxPage ? new { page = Model.CurrentPage + 1 } : new { page = Model.MaxPage })
+        </li>
+        <li>
+            @Html.ActionLink(">>", "Index", new { page = Model.MaxPage })
+        </li>
+    </ul>
+</div>
