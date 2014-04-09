@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Temperatura";
+}
+
+<form class="form-horizontal" role="form">
+    <p>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-primary btn-lg" data-bind="click: decrease">-</button>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <br />
+            <div class="font">
+                <label class="color-black" data-bind='text: message(), visible: temp() < 100'></label>
+                <label class="color-green" data-bind='text: message(), visible: temp() >= 100 && temp() < 400'></label>
+                <label class="color-orange" data-bind='text: message(), visible: temp() >= 400 && temp() < 700'></label>
+                <label class="color-red" data-bind='text: message(), visible: temp() >= 700'></label>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" data-bind="click: increase">+</button>
+
+    </p>
+</form>
+
+
+
+@section Scripts {
+    <script src="~/Scripts/Zad2.js"></script>
+}
+
+
+<style>
+    .color-green {
+        color: green;
+    }
+
+    .color-orange {
+        color: orange;
+    }
+
+    .color-red {
+        color: red;
+    }
+
+    .color-black {
+        color: black;
+    }
+
+    .font {
+        font-size: large;
+    }
+</style>
+
+
+
+

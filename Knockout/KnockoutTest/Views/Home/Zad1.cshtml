@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Wydarzenia";
+}
+
+<div class="container">
+    <form>
+        <h3>Dodaj wydarzenie</h3><br />
+        <label>Data</label>
+        <input type="text" data-bind='value: date' /><br />
+        <label>Opis</label>
+        <input type="text" data-bind='value: description' /><br />
+        <button type="submit" data-bind="click: addEvent">Dodaj</button>
+    </form>
+
+    <h4>Wydarzenia</h4>
+    <div data-bind='foreach: events'>
+        <div class="row">
+            <b><span data-bind="text: data"></span></b>&nbsp;
+            <span data-bind="text: opis"> </span>
+            <a href="#" data-bind="click: $root.removeEvent">Usuń</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+<script src="~/Scripts/Zad1.js"></script>
+}
+

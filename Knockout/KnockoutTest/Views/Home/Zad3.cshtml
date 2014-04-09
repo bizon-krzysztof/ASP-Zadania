@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Sumator";
+}
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Wartość</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: tablica">
+            <tr>
+                <td>
+                    <input data-bind='value: wartosc, valueUpdate: "afterkeydown"' />
+                    <a href="#" data-bind="click: $root.removeItem">Usuń</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <span data-bind='text: displaySum, visible: sum() > 0'></span>
+    <br /><br />
+    <button type="button" class="btn btn-primary btn-lg" data-bind="click: addItem">Dodaj</button>
+</div>
+
+@section Scripts {
+<script src="~/Scripts/Zad3.js"></script>
+}
