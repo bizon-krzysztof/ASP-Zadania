@@ -10,26 +10,9 @@ namespace MVCAutofac.Controllers
 {
     public class HomeController : Controller
     {
-        private CustomersService customerRepo;
-        public HomeController(CustomersService customerRepo)
+        public ActionResult Index()
         {
-            this.customerRepo = customerRepo;
-        }
-
-        public ActionResult Index(int page = 1)
-        {
-            var itemsPerPage = 10;
-            var result = customerRepo.GetItemsOnPage(itemsPerPage, page);
-
-            var customersVM = new CustomersViewModel
-            {
-                SelectedPage = page,
-                MaxPage = result.Item2,
-                ItemsPerPage = itemsPerPage,
-                DataOfCustomers = result.Item1
-            };
-
-            return View(customersVM);
+            return View();
         }
 	}
 }

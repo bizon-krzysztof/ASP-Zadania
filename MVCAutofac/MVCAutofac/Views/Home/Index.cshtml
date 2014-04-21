@@ -1,61 +1,236 @@
-﻿@model MVCAutofac.ViewModels.CustomersViewModel
-@{
-    ViewBag.Title = "Northwind - Customers";
-    var count = 0;
-}
+﻿@*@model MVCAutofac.ViewModels.CustomersViewModel
+    @{
+        ViewBag.Title = "Northwind - Customers";
+    }*@
 
-<h3>Customers</h3>
 
-<div>
+
+@*<div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-lg-1">#</th>
+                    <th class="col-lg-1">Id</th>
+                    <th class="col-lg-3">City</th>
+                    <th class="col-lg-3">Address</th>
+                    <th class="col-lg-2">Country</th>
+                    <th class="col-lg-2">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DataOfCustomers)
+                {
+                    <tr>
+                        <td>@((++count) + ((Model.SelectedPage - 1) * Model.ItemsPerPage))</td>
+                        <td>@item.CustomerID</td>
+                        <td>@item.City</td>
+                        <td>@item.Address</td>
+                        <td>@item.Country</td>
+                        <td>@item.Phone</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>*@
+
+@*<div>
+        <ul class="pagination pagination-sm">
+            <li>
+                @Html.ActionLink("<<", "Index", new { page = 1 })
+            </li>
+
+            <li>
+                @Html.ActionLink("<", "Index", Model.SelectedPage != 1 ? new { page = Model.SelectedPage - 1 } : new { page = 1 })
+            </li>
+
+            @for (int i = 1; i <= Model.MaxPage; i++)
+            {
+                <li class=@((i == Model.SelectedPage) ? "active" : "")>
+                    @Html.ActionLink(@i.ToString(), "Index", new { page = i })
+                </li>
+            }
+
+            <li>
+                @Html.ActionLink(">", "Index", Model.SelectedPage != Model.MaxPage ? new { page = Model.SelectedPage + 1 } : new { page = Model.MaxPage })
+            </li>
+            <li>
+                @Html.ActionLink(">>", "Index", new { page = Model.MaxPage })
+            </li>
+        </ul>
+    </div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div ng-controller="mainCtrl">
+    <br />
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('.dropdown-menu label').click(function (e) { e.stopPropagation(); })">
+            Tabele
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="column in namesOfColumns">
+                <label ng-click="changeVisible()">
+                    &nbsp
+                    <input type="checkbox" ng-model="column.checked" checked="{column.checked}" /> {{column.name}}
+                </label>
+            </li>
+        </ul>
+    </div>
+
+    &nbsp&nbsp&nbsp&nbsp&nbsp<label>Elementów na stronie</label>
+    <select ng-model="number" ng-options="item.count as item.title for item in numbers"></select>
+    <br>
+
+
+    <h3>Customers</h3>
+
     <table class="table table-striped">
         <thead>
             <tr>
-                <th class="col-lg-1">#</th>
-                <th class="col-lg-1">Id</th>
-                <th class="col-lg-3">City</th>
-                <th class="col-lg-3">Address</th>
-                <th class="col-lg-2">Country</th>
-                <th class="col-lg-2">Phone</th>
+                <th ng-show="visible">#</th>
+                <th ng-repeat="column in namesOfColumns" ng-show="column.checked">
+                    <a href="#" ng-click="changeSort(column.name)">{{column.name}}</a>
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Customers)
-            {
-                <tr>
-                    <td>@((++count) + ((Model.CurrentPage - 1) * Model.ItemsPerPage))</td>
-                    <td>@item.CustomerID</td>
-                    <td>@item.City</td>
-                    <td>@item.Address</td>
-                    <td>@item.Country</td>
-                    <td>@item.Phone</td>
-                </tr>
-            }
+            <tr ng-repeat="cust in customers">
+                <td ng-show="visible">{{($index + 1) + number * (page - 1) }}</td>
+                <td ng-show="namesOfColumns[0].checked">{{cust.CustomerID}}</td>
+                <td ng-show="namesOfColumns[1].checked">{{cust.CompanyName}}</td>
+                <td ng-show="namesOfColumns[2].checked">{{cust.ContactName}}</td>
+                <td ng-show="namesOfColumns[3].checked">{{cust.ContactTitle}}</td>
+                <td ng-show="namesOfColumns[4].checked">{{cust.Address}}</td>
+                <td ng-show="namesOfColumns[5].checked">{{cust.City}}</td>
+                <td ng-show="namesOfColumns[6].checked">{{cust.Region}}</td>
+                <td ng-show="namesOfColumns[7].checked">{{cust.PostalCode}}</td>
+                <td ng-show="namesOfColumns[8].checked">{{cust.Country}}</td>
+                <td ng-show="namesOfColumns[9].checked">{{cust.Phone}}</td>
+                <td ng-show="namesOfColumns[10].checked">{{cust.Fax}}</td>
+            </tr>
         </tbody>
     </table>
-</div>
 
-<div>
-    <ul class="pagination pagination-sm">
-        <li>
-            @Html.ActionLink("<<", "Index", new { page = 1 })
-        </li>
 
-        <li>
-            @Html.ActionLink("<", "Index", Model.CurrentPage != 1 ? new { page = Model.CurrentPage - 1 } : new { page = 1 })
-        </li>
-
-        @for (int i = 1; i <= Model.MaxPage; i++)
-        {
-            <li class=@((i == Model.CurrentPage) ? "active" : "")>
-                @Html.ActionLink(@i.ToString(), "Index", new { page = i })
+    <div>
+        <ul class="pagination pagination-sm" ng-model="numberOfPages" ng-show="visible">
+            <li ng-class="{disabled: page == 1}">
+                <a href="#" ng-click="setPage(1)"><<</a>
             </li>
-        }
 
-        <li>
-            @Html.ActionLink(">", "Index", Model.CurrentPage != Model.MaxPage ? new { page = Model.CurrentPage + 1 } : new { page = Model.MaxPage })
-        </li>
-        <li>
-            @Html.ActionLink(">>", "Index", new { page = Model.MaxPage })
-        </li>
-    </ul>
+            <li ng-class="{disabled: page == 1}">
+                <a href="#" ng-click="(page != 1) ? (page = page - 1) : ''"><</a>
+            </li>
+
+            <li ng-repeat="i in numberOfPages" ng-class="{active: i == page}">
+                <a href="#" ng-click="setPage(i)">{{i}}</a>
+            </li>
+
+            <li ng-class="{disabled: page == numberOfPages.length}">
+                <a href="#" ng-click="(page != numberOfPages.length) ? (page = page + 1) :''">></a>
+            </li>
+            <li ng-class="{disabled: page == numberOfPages.length}">
+                <a href="#" ng-click="setPage(numberOfPages.length)">>></a>
+            </li>
+        </ul>
+    </div>
 </div>
+
+
+
+
+@section Scripts{
+    <script>
+        function mainCtrl($scope, $http) {
+            $scope.page = 1;
+            $scope.numbers = [{ count: 10, title: 10 }, { count: 20, title: 20 }, { count: 30, title: 30 }, { count: 0, title: 'All' }];
+            $scope.number = $scope.numbers[0].count;
+            $scope.numberOfPages = [];
+            $scope.namesOfColumns = [];
+            $scope.sort = "CustomerID";
+            $scope.ascending = true;
+            $scope.visible = true;
+
+            $scope.setPage = function (n) {
+                $scope.page = n;
+            };
+
+            $scope.$watch('page', function () {
+                $http.get("/api/customer/GetItemsOnPage?page=" + $scope.page + "&itemsPerPage=" + $scope.number + "&parameter=" + $scope.sort + "&ascending=" + $scope.ascending).success(function (data) {
+                    $scope.customers = data;
+                });
+            });
+
+            $scope.$watch('number', function () {
+                $http.get("/api/customer/GetItemsOnPage?page=1&itemsPerPage=" + $scope.number + "&parameter=" + $scope.sort + "&ascending=" + $scope.ascending).success(function (data) {
+                    $scope.customers = data;
+                    $scope.page = 1;
+                });
+                $scope.numberOfPages = [];
+                countNumberOfPages();
+            });
+
+            var countNumberOfPages = function () {
+                $http.get("/api/customer/GetNumberOfAllItems").success(function (data) {
+                    $scope.numbers[3].count = data;
+                    for (var i = 1; i < (data / $scope.number) + 1; i++) {
+                        $scope.numberOfPages.push(i);
+                    }
+                });
+            };
+
+            var namesOfCol = function () {
+                $http.get("/api/customer/GetColumnNames").success(function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var item = { 'name': data[i], 'checked': false };
+                        $scope.namesOfColumns.push(item);
+                    }
+                    $scope.namesOfColumns[0].checked = true;
+                    $scope.namesOfColumns[4].checked = true;
+                    $scope.namesOfColumns[5].checked = true;
+                    $scope.namesOfColumns[8].checked = true;
+                    $scope.namesOfColumns[9].checked = true;
+                });
+            };
+
+            window.onload = namesOfCol();
+
+            $scope.changeSort = function (value) {
+                if ($scope.sort == value) {
+                    $scope.ascending = !$scope.ascending;
+                }
+                else {
+                    $scope.sort = value;
+                    $scope.ascending = true;
+                }
+                $http.get("/api/customer/GetItemsOnPage?page=" + $scope.page + "&itemsPerPage=" + $scope.number + "&parameter=" + $scope.sort + "&ascending=" + $scope.ascending).success(function (data) {
+                    $scope.customers = data;
+                });
+            };
+
+            $scope.changeVisible = function () {
+                for (var i = 0; i < $scope.namesOfColumns.length; i++)
+                {
+                    if ($scope.namesOfColumns[i].checked)
+                    {
+                        $scope.visible = true;
+                        return;
+                    }
+                }
+                $scope.visible = false;
+            };
+
+        };
+    </script>
+}

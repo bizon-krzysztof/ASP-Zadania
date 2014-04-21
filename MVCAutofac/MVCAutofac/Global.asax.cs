@@ -6,8 +6,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using MVCAutofac.Repository;
 using MVCAutofac.Service;
+using System.Web.Http;
 
 namespace MVCAutofac
 {
@@ -16,22 +18,25 @@ namespace MVCAutofac
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Register();
+            RegisterIoC();
         }
 
-        void Register()
+        void RegisterIoC()
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
 
-            builder.RegisterInstance(new northwindEntities());
+            builder.RegisterType<northwindEntities>().AsSelf();
             builder.RegisterType<SQLCustomerRepo>().As<ICustomerRepository>();
             builder.RegisterType<CustomersService>();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

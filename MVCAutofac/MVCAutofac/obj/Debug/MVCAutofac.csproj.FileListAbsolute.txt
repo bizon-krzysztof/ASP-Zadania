@@ -52,3 +52,13 @@ D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Web.WebPages.Razor.xml
 D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\obj\Debug\MVCAutofac.csprojResolveAssemblyReference.cache
 D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\obj\Debug\MVCAutofac.dll
 D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\obj\Debug\MVCAutofac.pdb
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\Autofac.Integration.WebApi.dll
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\Newtonsoft.Json.dll
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Net.Http.Formatting.dll
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Web.Http.dll
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Web.Http.WebHost.dll
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\Autofac.Integration.WebApi.xml
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\Newtonsoft.Json.xml
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Net.Http.Formatting.xml
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Web.Http.xml
+D:\ASPRepo\ASP-Zadania\MVCAutofac\MVCAutofac\bin\System.Web.Http.WebHost.xml
