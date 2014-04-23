@@ -1,0 +1,31 @@
+﻿<div ng-controller="mainCtrl">
+    Miesiąc: <input type="text" ng-model="month" /><br />
+    Rok: <input type="text" ng-model="year" />
+    <ul ng-repeat="ev in events">
+        <li>{{ev.Date}}  {{ev.Description}}</li>
+    </ul>
+
+</div>
+
+
+
+@section Scripts{
+    <script>
+        function mainCtrl($scope, $http) {
+
+            $scope.month = 4;
+            $scope.year = 2014;
+
+            $scope.$watchCollection('[month, year]', function (newValues) {
+                if ($scope.month && $scope.year) {
+                    $http.get("/api/events/?month=" + $scope.month + "&year=" + $scope.year).success(function (data) {
+                        $scope.events = data;
+                    });
+                }
+                else {
+                    $scope.events = [];
+                }
+            });
+        };
+    </script>
+}
